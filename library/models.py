@@ -12,6 +12,9 @@ class Book(models.Model):
     publication_date = models.DateField(null=False, blank=False)
     summary = models.TextField(null=False, blank=False)
 
+    def __str__(self):
+        return f"Título do Livro: {self.title} | ID do Livro: {self.id}"
+
 class Loan(models.Model):
     loan_date = models.DateField(null=False, blank=False)
     return_date = models.DateField(null=True, blank=True, default=None)
