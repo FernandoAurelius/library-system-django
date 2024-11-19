@@ -34,12 +34,15 @@ class LoanCreateView(OwnedMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['books_list'] = Book.objects.order_by("title").filter(availability=True)
+        context["books_list"] = Book.objects.order_by("id").filter(availability=True)
         return context
 
     def get_form(self, form_class = None):
         form = super().get_form(form_class)
-        form.fields['book'].queryset = Book.objects.order_by("title").filter(availability=True)
+        form.fields["book"].queryset = Book.objects.order_by("id").filter(availability=True)
+        form.fields["book"].label = "Livros disponíveis para empréstimo"
+        form.fields["return_date"].label = "Data de devolução"
+        form.fields["return_date"].help_text = "Insira a data no formato: dd/mm/aaaa"
         return form
 
     def form_valid(self, form):

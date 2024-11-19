@@ -23,7 +23,7 @@ def logout(request: HttpRequest):
 
     if request.method == "POST":
         auth.logout(request)
-        return redirect("login")
+        return redirect("index")
     else:
         return render(request, "registration/logout.html")
     
