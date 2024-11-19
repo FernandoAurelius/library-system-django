@@ -21,7 +21,10 @@ DJANGO_APPS = [
     "django.contrib.staticfiles",
 ]
 
-MY_APPS = ["library.apps.LibraryConfig"]
+MY_APPS = [
+    "library.apps.LibraryConfig",
+    "users.apps.UsersConfig",
+    ]
 
 THIRD_PARTY_APPS = [
     "crispy_forms",
