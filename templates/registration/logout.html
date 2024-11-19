@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <section class="container-fluid">
+        <div class="alert alert-danger" role="alert">
+            <h4 class="alert-heading">Espere! Não vá ainda...</h4>
+            <hr>
+            <p>Por favor, confirme clicando no botão abaixo.</p>
+        </div>
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Sair</button>
+        </form>
+    </section>
+{% endblock content %}
