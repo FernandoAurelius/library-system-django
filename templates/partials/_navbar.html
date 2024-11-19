@@ -1,19 +1,22 @@
 <main class="flex-fill flex-shrink-0 mb-4">
   <nav class="navbar bg-dark mb-4" data-bs-theme="dark">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">
-        <img width="30" height="24" src="https://img.icons8.com/dusk/64/library.png" alt="Logo" class="d-inline-block align-text-top">
-        BiblioTech
-      </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button> 
-      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-          <a class="nav-link" data-bs-theme="dark" href="{% url 'authView' %}">Registrar-se</a>
-          <a class="nav-link" data-bs-theme="dark" href="{% url 'login' %}">Login</a>
-          <a class="nav-link" data-bs-theme="dark" href="{% url 'logout' %}">Logout</a>
-        </div>
+      <div class="container-fluid">
+          <a class="navbar-brand" href="{% url 'index' %}">
+              <img width="30" height="24" src="https://img.icons8.com/dusk/64/library.png" alt="Logo"
+                  class="d-inline-block align-text-top">
+              BiblioTech
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+              data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
+              aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon" data-bs-theme="dark"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+              <div class="navbar-nav">
+                  <a class="nav-link" data-bs-theme="dark" href="{% url 'authView' %}">Registrar-se</a>
+                  <a class="nav-link" data-bs-theme="dark" href="{% url 'login' %}">Login</a>
+                  <a class="nav-link" data-bs-theme="dark" href="{% url 'logout' %}">Logout</a>
+              </div>
+          </div>
       </div>
-    </div>
   </nav>
