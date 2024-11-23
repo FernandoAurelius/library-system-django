@@ -11,6 +11,7 @@ class Book(models.Model):
     availability = models.BooleanField(null=False, blank=False, default=True)
     publication_date = models.DateField(null=False, blank=False)
     summary = models.TextField(null=False, blank=False)
+    cover = models.CharField(max_length=150, null=True, blank=True)
 
     def __str__(self):
         return f"Título do Livro: {self.title} | ID do Livro: {self.id}"

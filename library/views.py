@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import CreateView
+from django.views.generic import CreateView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from library.models import Book, Loan
@@ -10,8 +10,8 @@ from datetime import timedelta
 
 # TODO: criar views da biblioteca
 class OwnedMixin(LoginRequiredMixin):
-    def get_queryset(self, *args, **kwargs):
-        return super().get_queryset(*args, **kwargs).filter(owner=self.request.user)
+  # def get_queryset(self, *args, **kwargs):
+  #     return super().get_queryset(*args, **kwargs).filter(owner=self.request.user)
 
     def check_ownership(self, obj):
         if obj.owner != self.request.user:
@@ -49,7 +49,8 @@ class LoanCreateView(OwnedMixin, CreateView):
         form = self.set_owner(form)
         return_date = form.cleaned_data.get("return_date")
         month_ahead = (timezone.now() + timedelta(days=30)).date()
-        if return_date > month_ahead:
+        today = timezone.now().date()
+        if return_date > month_ahead or return_date <= today:
             today = timezone.now().date()
             today = today.strftime("%d/%m/%Y")
             month_ahead = month_ahead.strftime("%d/%m/%Y")
@@ -71,3 +72,8 @@ class LoanCreateView(OwnedMixin, CreateView):
         book.save()
         return super().form_valid(form)
 
+
+class BookListView(OwnedMixin, ListView):
+    login_url = "accounts/login"
+    model = Book
+    # fields = ["title", "author", "genre", "summary", "availability"]

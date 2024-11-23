@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="container-fluid">
+    <div class="row justify-content-center" style="text-align: center;">
+        {% for book in book_list %}
+            <div class="col-sm-4 justify-content-center">
+                <div class="card w-30 m-4" data-bs-theme="dark">
+                    {% if book.cover %}
+                        <img src="{{ book.cover }}" class="card-img-top" alt="Book cover provided by the user">
+                    {% else %}
+                        <img src="https://ff-bibliotech.s3.us-east-1.amazonaws.com/book-cover-sample.webp" class="card-img-top" alt="Book cover sample">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ book.title }}</h5>
+                        <h6 class="card-subtitle mb-2 text-body-secondary">Autor: {{ book.author }}</h6>
+                        <p class="card-text">{{ book.summary }}</p>
+                        <hr>
+                        <p class="card-text">Gênero: {{ book.genre }}</p>
+                        {% if book.availability %}
+                            <a href="{% url "loan_create" %}" class="btn btn-success">Pegar emprestado</a>
+                        {% else %}
+                            <a href="#" class="btn btn-primary disabled" role="button" aria-disabled="true">Indisponível para empréstimo</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock content %}
