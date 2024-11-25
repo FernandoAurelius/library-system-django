@@ -22,5 +22,5 @@ class Loan(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE) # Referencia automaticamente à classe padrão de usuário definida na aplicação (seja a default ou uma costumizada)
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     # TODO: criar campo que indica se o empréstimo já foi terminado e o livro retornado
-    # returned = models.BooleanField(null=True, blank=True, default=None)
+    returned = models.BooleanField(null=False, blank=False, default=False)
     

@@ -39,7 +39,7 @@
                     <hr>
                     <p class="card-text">Gênero: {{ book.genre }}</p>
                     {% if book.availability %}
-                    <a href="{% url "loan_create" %}" class="btn btn-success">Pegar emprestado</a>
+                    <a href="{% url 'loan_create' %}" class="btn btn-success">Pegar emprestado</a>
                     {% else %}
                     <a href="#" class="btn btn-primary disabled" role="button" aria-disabled="true">Indisponível para
                         empréstimo</a>
