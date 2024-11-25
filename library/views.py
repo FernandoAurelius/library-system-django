@@ -1,10 +1,19 @@
 from django.shortcuts import render
+
 from django.views.generic import CreateView, ListView
+
 from django.contrib.auth.mixins import LoginRequiredMixin
+
 from django.contrib import messages
+
+from django.db.models import Q
+
 from library.models import Book, Loan
+
 from django.utils import timezone
+
 from django.urls import reverse_lazy
+
 from datetime import timedelta
 
 
@@ -77,3 +86,19 @@ class BookListView(OwnedMixin, ListView):
     login_url = "accounts/login"
     model = Book
     # fields = ["title", "author", "genre", "summary", "availability"]
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        search_param = self.request.GET.get("search", "")  # Padrão: string vazia
+
+        """
+        Aqui, fazemos a pesquisa utilizando a classe Q, que permite a criação de consultas dinâmicas usando o ORM do Django
+        Especialmente útil para combinar filtros com operadores lógicos 
+        """
+        if search_param:  # Verifica se o parâmetro não está vazio
+            queryset = queryset.filter(
+                Q(title__icontains = search_param) |
+                Q(author__icontains = search_param) |
+                Q(genre__icontains = search_param)
+            )
+        return queryset

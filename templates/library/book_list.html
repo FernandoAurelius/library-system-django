@@ -1,30 +1,58 @@
 {% extends "base.html" %}
 {% block content %}
 <section class="container-fluid">
+    <div class="alert alert-primary text-center" role="alert">
+        <h4 class="alert-heading"><b>Acervo da biblioteca</b></h4>
+        <p>
+            Olá, usuário! Seja bem-vindo(a) ao acervo da biblioteca. Abaixo, você poderá encontrar diversos títulos
+            famosos, não tão famosos,
+            divertidos, dramáticos, violentos, amigáveis, infantis e dos mais diversos autores também.
+        </p>
+        <hr>
+        <p class="mb-0">
+            Enfim, sinta-se livre para dar uma olhada nos livros que ofertamos a você, e também fique a vontade
+            para pesquisar abaixo
+            por livros específicos através do <strong>título</strong>, <strong>nome do autor</strong> ou <strong>gênero</strong>. 
+            Aproveite 😃💫
+        </p>
+        <form action="{% url 'book_list' %}" class="input-group mb-3 mt-3" data-bs-theme="dark">
+            <button class="btn btn-outline-secondary" type="submit" id="button-addon1">🔍</button>
+            <input type="text" class="form-control" name="search" placeholder="Ex.: &quot;Tolkien&quot;"
+                aria-label="Ex.: &quot;Tolkien&quot;" aria-describedby="button-addon1">
+        </form>
+    </div>
     <div class="row justify-content-center" style="text-align: center;">
+        {% if book_list %}
         {% for book in book_list %}
-            <div class="col-sm-4 justify-content-center">
-                <div class="card w-30 m-4" data-bs-theme="dark">
-                    {% if book.cover %}
-                        <img src="{{ book.cover }}" class="card-img-top" alt="Book cover provided by the user">
+        <div class="col-sm-4 justify-content-center">
+            <div class="card w-30 m-4" data-bs-theme="dark">
+                {% if book.cover %}
+                <img src="{{ book.cover }}" class="card-img-top" alt="Book cover provided by the user">
+                {% else %}
+                <img src="https://ff-bibliotech.s3.us-east-1.amazonaws.com/book-cover-sample.webp" class="card-img-top"
+                    alt="Book cover sample">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ book.title }}</h5>
+                    <h6 class="card-subtitle mb-2 text-body-secondary">Autor: {{ book.author }}</h6>
+                    <p class="card-text">{{ book.summary }}</p>
+                    <hr>
+                    <p class="card-text">Gênero: {{ book.genre }}</p>
+                    {% if book.availability %}
+                    <a href="{% url "loan_create" %}" class="btn btn-success">Pegar emprestado</a>
                     {% else %}
-                        <img src="https://ff-bibliotech.s3.us-east-1.amazonaws.com/book-cover-sample.webp" class="card-img-top" alt="Book cover sample">
+                    <a href="#" class="btn btn-primary disabled" role="button" aria-disabled="true">Indisponível para
+                        empréstimo</a>
                     {% endif %}
-                    <div class="card-body">
-                        <h5 class="card-title">{{ book.title }}</h5>
-                        <h6 class="card-subtitle mb-2 text-body-secondary">Autor: {{ book.author }}</h6>
-                        <p class="card-text">{{ book.summary }}</p>
-                        <hr>
-                        <p class="card-text">Gênero: {{ book.genre }}</p>
-                        {% if book.availability %}
-                            <a href="{% url "loan_create" %}" class="btn btn-success">Pegar emprestado</a>
-                        {% else %}
-                            <a href="#" class="btn btn-primary disabled" role="button" aria-disabled="true">Indisponível para empréstimo</a>
-                        {% endif %}
-                    </div>
                 </div>
             </div>
+        </div>
         {% endfor %}
+        {% else %}
+            <div class="col-sm-4 alert alert-danger text-center p-3" role="alert">
+                <b>Livros não encontrados 😿</b>
+            </div>
+        {% endif %}
     </div>
 </section>
 {% endblock content %}
