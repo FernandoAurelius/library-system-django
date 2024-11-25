@@ -19,8 +19,7 @@ class Book(models.Model):
 class Loan(models.Model):
     loan_date = models.DateField(null=False, blank=False)
     return_date = models.DateField(null=True, blank=True, default=None)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE) # Referencia automaticamente à classe padrão de usuário definida na aplicação (seja a default ou uma costumizada)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE) 
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
-    # TODO: criar campo que indica se o empréstimo já foi terminado e o livro retornado
-    returned = models.BooleanField(null=False, blank=False, default=False)
     
+    returned = models.BooleanField(null=False, blank=False, default=False)
