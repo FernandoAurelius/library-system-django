@@ -1,6 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import redirect
 
-from django.views.generic import CreateView, ListView
+from django.views.generic import CreateView, ListView, UpdateView
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -81,6 +81,42 @@ class LoanCreateView(OwnedMixin, CreateView):
         book.save()
         return super().form_valid(form)
 
+
+class LoanUpdateView(OwnedMixin, UpdateView):
+    login_url = "accounts/login"
+    model = Loan
+    fields = ["book"]
+    success_url = reverse_lazy("book_list")
+
+    def get_form(self, form_class = None):
+        form = super().get_form(form_class)
+        loan = self.get_object()
+        
+        form.fields["book"].queryset = Book.objects.filter(id=loan.book.id)
+        
+        return form
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['renew_button'] = True 
+        return context
+
+    def form_valid(self, form):
+        loan = self.get_object() 
+        
+        if 'renew' in self.request.POST:
+            loan.return_date = timezone.now() + timedelta(days=15)
+            loan.save()
+            return redirect(self.success_url)
+
+        elif 'return' in self.request.POST:
+            loan.returned = True
+            loan.book.availability = True  
+            loan.book.save()
+            loan.save()
+            return redirect(self.success_url)
+        
+        return super().form_valid(form)
 
 class BookListView(OwnedMixin, ListView):
     login_url = "accounts/login"
